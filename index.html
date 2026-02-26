@@ -271,7 +271,7 @@
         <ul id="detailList"></ul>
       </div>
     </div>
-    <p class="hint">Najeďte myší na milník pro zobrazení detailů</p>
+    <p class="hint">Najeďte myší nebo klikněte na milník pro zobrazení detailů</p>
   </div>
 
   <script>
@@ -353,6 +353,7 @@
     const detailList = document.getElementById('detailList');
 
     let activeIndex = null;
+    let isTouchDevice = false;
 
     data.forEach((milestone, i) => {
       const el = document.createElement('div');
@@ -364,9 +365,21 @@
       `;
       milestonesEl.appendChild(el);
 
-      el.addEventListener('mouseenter', () => showDetail(i));
-      el.addEventListener('mouseleave', () => hideDetail());
+      el.addEventListener('mouseenter', () => {
+        if (!isTouchDevice) showDetail(i);
+      });
+      el.addEventListener('mouseleave', () => {
+        if (!isTouchDevice) hideDetail();
+      });
       el.addEventListener('click', () => toggleDetail(i));
+      el.addEventListener('touchstart', () => { isTouchDevice = true; }, { passive: true });
+    });
+
+    /* Zavřít detail při tapnutí mimo milníky (mobil) */
+    document.addEventListener('click', (e) => {
+      if (isTouchDevice && activeIndex !== null && !e.target.closest('.milestone')) {
+        hideDetail();
+      }
     });
 
     function getProgressForIndex(index) {
