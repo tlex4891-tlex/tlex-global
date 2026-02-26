@@ -101,6 +101,18 @@
       z-index: 3;
     }
 
+    /* Předchozí fáze – jen modrý obrys */
+    .milestone.passed .milestone-number {
+      border-color: #38bdf8;
+      color: #38bdf8;
+      background: #1e293b;
+    }
+
+    .milestone.passed .milestone-label {
+      color: #38bdf8;
+    }
+
+    /* Aktivní fáze – plný modrý kruh */
     .milestone:hover .milestone-number,
     .milestone.active .milestone-number {
       background: #0ea5e9;
@@ -381,6 +393,7 @@
 
       document.querySelectorAll('.milestone').forEach((el, i) => {
         el.classList.toggle('active', i === index);
+        el.classList.toggle('passed', i < index);
       });
     }
 
@@ -390,6 +403,7 @@
       timelineLine.style.setProperty('--progress', '0%');
       document.querySelectorAll('.milestone').forEach(el => {
         el.classList.remove('active');
+        el.classList.remove('passed');
       });
     }
 
