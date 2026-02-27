@@ -220,6 +220,46 @@
       background: #0ea5e9;
     }
 
+    /* --- Otázky v detailu --- */
+    .detail-questions {
+      margin-top: 1rem;
+      padding-top: 0.8rem;
+      border-top: 1px solid #334155;
+    }
+
+    .detail-questions h4 {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #f59e0b;
+      margin-bottom: 0.5rem;
+      font-style: italic;
+    }
+
+    .detail-questions ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .detail-questions ul li {
+      position: relative;
+      padding: 0.25rem 0 0.25rem 1.2rem;
+      font-size: 0.82rem;
+      color: #94a3b8;
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    .detail-questions ul li::before {
+      content: '?';
+      position: absolute;
+      left: 0;
+      top: 0.25rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #f59e0b;
+      font-style: normal;
+    }
+
     /* --- Instrukce --- */
     .hint {
       text-align: center;
@@ -269,6 +309,10 @@
       <div class="detail-card" id="detailCard">
         <h3 id="detailTitle"></h3>
         <ul id="detailList"></ul>
+        <div class="detail-questions" id="detailQuestions" style="display:none;">
+          <h4>Otázky</h4>
+          <ul id="detailQuestionsList"></ul>
+        </div>
       </div>
     </div>
     <p class="hint">Najeďte myší nebo klikněte na milník pro zobrazení detailů</p>
@@ -282,6 +326,10 @@
           'Vznik business potřeby',
           'Sepsání požadavku (ticket, RFC, user story)',
           'Přiřazení priority a kategorie'
+        ],
+        questions: [
+          'Kdo a jak iniciuje požadavky pro potřeby migrace/konfigurace?',
+          'Kdo určuje priority těchto požadavků? (v CN je vždy uveden fixní časový horizont od objednání)'
         ]
       },
       {
@@ -291,6 +339,12 @@
           'Odhadování náročnosti',
           'Schválení financování / kapacit',
           'Zařazení do backlogu nebo sprintu'
+        ],
+        questions: [
+          'Probíhá review požadavku se Synot Tech, případně se zákazníkem?',
+          'Předáváme směrem na Synot Tech (zákazníka odhad náročnosti, je součástí finální CN)?',
+          'Schvaluje si někdo interně a předává na ST info o kapacitách týmů a zařazení projektu v čase?',
+          'Pokud ST objedná předáváme mu info termínu dodání celku?'
         ]
       },
       {
@@ -299,14 +353,17 @@
           'Funkční a technická analýza',
           'Návrh architektury / řešení',
           'Odsouhlasení specifikace (sign-off)'
+        ],
+        questions: [
+          'Odsouhlasujeme / potvrzujeme si funkční a tech. analýzu/návrh architektury s ST? (abychom pokryli všechny potřeby)'
         ]
       },
       {
-        title: 'Vývoj',
+        title: 'Implementace',
         items: [
           'Zahájení implementace',
           'Konfigurace serverů, sítí, security',
-          'Dokončení vývoje (feature complete)'
+          'Dokončení implementace'
         ]
       },
       {
@@ -317,6 +374,10 @@
           'Uživatelské akceptační testování (UAT)',
           'Oprava defektů a regresní testy',
           'QA sign-off'
+        ],
+        questions: [
+          'Testujeme společně s ST, nebo si testuje ST samo?',
+          'Bývá součástí každé dodávky vždy i UAT prostředí?'
         ]
       },
       {
@@ -325,6 +386,9 @@
           'Release planning',
           'Schválení releasu',
           'Go/No-Go rozhodnutí'
+        ],
+        questions: [
+          'Kdo dává Go/No-Go rozhodnutí? (víme o přípravě přechodu do produkce předem?)'
         ]
       },
       {
@@ -342,6 +406,9 @@
           'Řešení post-production incidentů',
           'Formální předání do provozu (handover)',
           'Uzavření ticketu / požadavku'
+        ],
+        questions: [
+          'Řešíme my nebo ST předávací protokol podepsaný zákazníkem (Slovmatic apod.)?'
         ]
       }
     ];
@@ -392,12 +459,22 @@
       return progress;
     }
 
+    const detailQuestions = document.getElementById('detailQuestions');
+    const detailQuestionsList = document.getElementById('detailQuestionsList');
+
     function showDetail(index) {
       activeIndex = index;
       const m = data[index];
 
       detailTitle.innerHTML = `<span class="num">${index + 1}</span> ${m.title}`;
       detailList.innerHTML = m.items.map(item => `<li>${item}</li>`).join('');
+
+      if (m.questions && m.questions.length > 0) {
+        detailQuestionsList.innerHTML = m.questions.map(q => `<li>${q}</li>`).join('');
+        detailQuestions.style.display = '';
+      } else {
+        detailQuestions.style.display = 'none';
+      }
 
       detailCard.classList.add('visible');
 
