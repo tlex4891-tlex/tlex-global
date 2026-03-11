@@ -1,19 +1,35 @@
-# tlex-global
+# Timeline — Claude Code Template
 
-Globální projektový template pro Claude Code na webu.
+Template repozitář pro nové projekty s automatickou synchronizací globálních instrukcí pro Claude Code.
+
+## Použití
+
+1. Při vytváření nového repozitáře na GitHubu vyber tento repozitář jako **template**
+2. Nový repozitář bude obsahovat SessionStart hook, který při každé session automaticky načte tvůj globální `CLAUDE.md`
 
 ## Co obsahuje
 
-- **SessionStart hook** — při každém otevření session automaticky stáhne aktuální `CLAUDE.md` z [`claude-global-config`](https://github.com/tlex4891-tlex/claude-global-config) do `~/.claude/CLAUDE.md`
-- **CLAUDE.md** — odkaz na globální konfiguraci
+| Soubor | Účel |
+|--------|------|
+| `.claude/settings.json` | Definice SessionStart hooku |
+| `.claude/hooks/session-start.sh` | Skript pro stažení `CLAUDE.md` z [`claude-global-config`](https://github.com/tlex4891-tlex/claude-global-config) |
+| `CLAUDE.md` | Lokální placeholder — při startu session se přepíše aktuální verzí z `claude-global-config` |
 
-## Jak funguje
+## Jak to funguje
 
-1. Otevřeš tento repozitář (nebo nový projekt zkopírovaný z tohoto) v Claude Code web app
-2. SessionStart hook se automaticky spustí
-3. Stáhne nejnovější `CLAUDE.md` z `claude-global-config`
-4. Claude ho přečte a bude pracovat podle tvých globálních instrukcí
+```
+Nový repozitář (z template)
+  └── .claude/
+       ├── settings.json          ← spustí hook při SessionStart
+       └── hooks/session-start.sh ← stáhne CLAUDE.md z claude-global-config
+                                        ↓
+                                  ~/.claude/CLAUDE.md  ← globální instrukce pro Claude
+```
 
 ## Úprava globálních instrukcí
 
-Edituj `CLAUDE.md` v repozitáři [claude-global-config](https://github.com/tlex4891-tlex/claude-global-config) — změny se projeví při další session automaticky.
+Edituj `CLAUDE.md` v repozitáři [claude-global-config](https://github.com/tlex4891-tlex/claude-global-config) — změny se automaticky projeví při každé nové session ve všech repozitářích vytvořených z tohoto template.
+
+## Nastavení template
+
+Aby tento repozitář fungoval jako template, je potřeba v **Settings** zaškrtnout **Template repository**.

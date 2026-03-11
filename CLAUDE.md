@@ -1,5 +1,5 @@
 # CLAUDE.md
 
-Tento soubor je automaticky synchronizován z [tlex4891-tlex/claude-global-config](https://github.com/tlex4891-tlex/claude-global-config) při každém startu session přes SessionStart hook.
+Tento soubor slouží jako placeholder a je automaticky nahrazen aktuální verzí z [claude-global-config](https://github.com/tlex4891-tlex/claude-global-config) při každém startu session.
 
-Pro úpravu globálních instrukcí edituj soubor v repozitáři `claude-global-config`.
+Pro úpravu instrukcí edituj `CLAUDE.md` v repozitáři `claude-global-config`.
